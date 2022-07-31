@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+
 
 @RestController
 public class HelloWorldController {
@@ -47,8 +49,11 @@ public class HelloWorldController {
                 int grayLevel = (int) (255.0 * Math.pow(lum, 1.0 / 2.2));
                 int gray = (grayLevel << 16) + (grayLevel << 8) + grayLevel;
                 img.setRGB(x, y, gray);
+                ByteArrayOutputStream byteImg = new ByteArrayOutputStream();
+                ImageIO.write(img, "jpg", byteImg);
+                bytes = byteImg.toByteArray();
             }
-        return new byte[0];
+        return bytes;
     }
 }
 

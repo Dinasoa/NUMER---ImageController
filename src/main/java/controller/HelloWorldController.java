@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.ByteArrayOutputStream;
-
+import java.io.IOException;
 
 @RestController
 public class HelloWorldController {
@@ -28,7 +27,8 @@ public class HelloWorldController {
         return makeGray(ImageIO.read(img));
     }
 
-    public static byte[] makeGray(BufferedImage img) {
+    public static byte[] makeGray(BufferedImage img) throws IOException {
+        byte[] bytes = new byte[0];
         for (int x = 0; x < img.getWidth(); ++x)
             for (int y = 0; y < img.getHeight(); ++y)
             {
@@ -49,11 +49,11 @@ public class HelloWorldController {
                 int grayLevel = (int) (255.0 * Math.pow(lum, 1.0 / 2.2));
                 int gray = (grayLevel << 16) + (grayLevel << 8) + grayLevel;
                 img.setRGB(x, y, gray);
-                ByteArrayOutputStream byteImg = new ByteArrayOutputStream();
-                ImageIO.write(img, "jpg", byteImg);
-                bytes = byteImg.toByteArray();
+                ByteArrayOutputStream byteImage = new ByteArrayOutputStream();
+                ImageIO.write(img, "jpg", byteImage);
+                 bytes = byteImage.toByteArray() ;
             }
-        return bytes;
+        return bytes ;
     }
 }
 
